@@ -20,7 +20,31 @@ const library = {
                       name: "Other Playlist",
                       tracks: ["t03"]
                     }
-             }
+              },
+  printPlaylists = function(playNum) {
+    let play = playNum;
+    let id = play["id"];
+    let name = play["name"];
+    let tracks = play["tracks"].length;
+    if (tracks === 1){
+      console.log(id + ": " + name + " - " + tracks + " track");  //for playlists with single tracks
+    } else {
+      console.log(id + ": " + name + " - " + tracks + " tracks"); // for playlists with 0 or multiple tracks
+    }
+    let trk = play["tracks"];
+    for (let i = 0; i < trk.length; i++) {
+      printTracks(trk[i]);
+    }
+  },
+  printTracks = function(trakId) {
+    let tracks = library["tracks"];
+    let trk = tracks[trakId];
+    let id = trk["id"];
+    let name = trk["name"];
+    let artist = trk["artist"];
+    let album = trk["album"];
+    console.log(id + ": " + name + " by " + artist + " (" + album + ")");
+  };
 };
 
 /////////////////////////////
@@ -30,37 +54,11 @@ const library = {
 // prints a list of all playlists, in the form:
 // p01: Coding Music - 2 tracks
 // p02: Other Playlist - 1 tracks
-const printPlaylists = function(playNum) {
-  let play = playNum;
-  let id = play["id"];
-  let name = play["name"];
-  let tracks = play["tracks"].length;
-  if (tracks === 1){
-    console.log(id + ": " + name + " - " + tracks + " track");  //for playlists with single tracks
-  } else {
-    console.log(id + ": " + name + " - " + tracks + " tracks"); // for playlists with 0 or multiple tracks
-  }
-  let trk = play["tracks"];
-  for (let i = 0; i < trk.length; i++) {
-    printTracks(trk[i]);
-  }
-};
-
 
 // prints a list of all tracks, using the following format:
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 // t03: Four Thirty-Three by John Cage (Woodstock 1952)
-const printTracks = function(trakId) {
-  let tracks = library["tracks"];
-  let trk = tracks[trakId];
-  let id = trk["id"];
-  let name = trk["name"];
-  let artist = trk["artist"];
-  let album = trk["album"];
-  console.log(id + ": " + name + " by " + artist + " (" + album + ")");
-};
-
 
 // prints a list of tracks for a given playlist, using the following format:
 // p01: Coding Music - 2 tracks
