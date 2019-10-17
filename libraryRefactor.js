@@ -21,7 +21,7 @@ const library = {
                       tracks: ["t03"]
                     }
               },
-  printPlaylists = function(playNum) {
+  printPlaylists: function(playNum) {
     let play = playNum;
     let id = play["id"];
     let name = play["name"];
@@ -33,10 +33,10 @@ const library = {
     }
     let trk = play["tracks"];
     for (let i = 0; i < trk.length; i++) {
-      printTracks(trk[i]);
+      this.printTracks(trk[i]);
     }
   },
-  printTracks = function(trakId) {
+  printTracks: function(trakId) {
     let tracks = library["tracks"];
     let trk = tracks[trakId];
     let id = trk["id"];
@@ -44,7 +44,45 @@ const library = {
     let artist = trk["artist"];
     let album = trk["album"];
     console.log(id + ": " + name + " by " + artist + " (" + album + ")");
-  };
+  },
+  printPlaylist: function(playlistId) {
+    let listId = playlistId;
+    let playlists = this.playlists;
+    return playlists[listId];
+  },
+  addTrackToPlaylist: function(trackId, playlistId) {
+    let playlists = this.playlists;
+    playlists[playlistId]["tracks"].push(trackId);
+  },
+  generateUid: function() {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  },
+  addTrack: function(name, artist, album) {
+    let word = name;
+    let person = artist;
+    let cd = album;
+    let tracks = this.tracks;
+    let count = 0;
+    for (let item in tracks){
+      if(item in tracks){
+        count++;
+      }
+    }
+    let idNum = 't0' + (count + 1);
+    tracks[idNum] = {id: idNum, name: word, artist: person, album: cd};
+  },
+  addPlaylist: function(name) {
+    let playName = name;
+    let playlists = this.playlists;
+    let count = 0;
+    for (let item in playlists) {
+      if(item in playlists) {
+        count++
+      }
+    }
+    let playNum = 'p0' + (count + 1);
+    playlists[playNum] = {id: playNum, name: playName, tracks: []};
+  }
 };
 
 /////////////////////////////
@@ -64,58 +102,17 @@ const library = {
 // p01: Coding Music - 2 tracks
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
-const printPlaylist = function(playlistId) {
-  let listId = playlistId;
-  let playlists = library["playlists"];
-  return playlists[listId];
-};
 
 
 // adds an existing track to an existing playlist
-const addTrackToPlaylist = function(trackId, playlistId) {
-  let playlists = library["playlists"];
-  playlists[playlistId]["tracks"].push(trackId);
-};
 
 
 // generates a unique id
 // (already implemented: use this for addTrack and addPlaylist)
-const generateUid = function() {
-  return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-};
-
 
 // adds a track to the library
-const addTrack = function(name, artist, album) {
-  let word = name;
-  let person = artist;
-  let cd = album;
-  let tracks = library["tracks"];
-  let count = 0;
-  for (let item in tracks){
-    if(item in tracks){
-      count++;
-    }
-  }
-  let idNum = 't0' + (count + 1);
-  tracks[idNum] = {id: idNum, name: word, artist: person, album: cd};
-};
-
 
 // adds a playlist to the library
-const addPlaylist = function(name) {
-  let playName = name;
-  let playlists = library["playlists"];
-  let count = 0;
-  for (let item in playlists) {
-    if(item in playlists) {
-      count++
-    }
-  }
-  let playNum = 'p0' + (count + 1);
-  playlists[playNum] = {id: playNum, name: playName, tracks: []};
-};
-
 
 // STRETCH:
 // given a query string string, prints a list of tracks
@@ -128,7 +125,7 @@ const printSearchResults = function(query) {
 
 //printPlaylists(library);
 //printTracks(library);
-//printPlaylists(printPlaylist('p01'));
+library.printPlaylists(library.printPlaylist('p01'));
 //addTrackToPlaylist('t01', 'p02');
 
 //addTrack('Polly', 'Nirvana', 'Nevermind');
